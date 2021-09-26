@@ -1,0 +1,4 @@
+{{define "SayHello"}}
+    hello world
+{{end}}
+{{template "SayHello"}}

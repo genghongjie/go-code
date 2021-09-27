@@ -25,17 +25,19 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		_, err := w.Write([]byte("It is ok!"))
 		if err != nil {
-			log.Fatalln(err.Error())
+			log.Println(err.Error())
 		}
 
 		//打印访问信息
 		log.Printf("%s  %s  %d  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
 	}
 
+	//多路复用
+	mux := http.NewServeMux()
 	//健康检查
-	http.HandleFunc("/healthz", myHandler)
+	mux.HandleFunc("/healthz", myHandler)
 
 	_ = os.Setenv("V", "v1.00")
 	//启动服务
-	log.Fatalln(http.ListenAndServe(":8080", nil))
+	log.Fatalln(http.ListenAndServe(":8080", mux))
 }

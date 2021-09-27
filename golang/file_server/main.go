@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	dir := flag.String("dir", "/tmp", "默认路径")
+	dir := flag.String("dir", "./", "默认路径")
 
 	fs := http.FileServer(http.Dir(*dir))
 

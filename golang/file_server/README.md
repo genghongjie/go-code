@@ -2,6 +2,26 @@
 
 bin目录中有对应的可执行文件
 
+## 下载 
+
+linux可执行文件 
+```
+wget --no-check-certificate https://github.com/genghongjie/go-code/blob/main/golang/file_server/bin/linux/64/fserver
+```
+
+mac可执行文件
+
+```
+wget --no-check-certificate https://github.com/genghongjie/go-code/blob/main/golang/file_server/bin/mac/64/fserver
+
+```
+windows可执行文件
+```
+wget --no-check-certificate https://github.com/genghongjie/go-code/blob/main/golang/file_server/bin/windows/64/fserver.exe
+```
+
+
+
 指定代理目录需要在启动时指定参数 dir，默认为当前路径
 
 启动示例

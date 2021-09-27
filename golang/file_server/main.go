@@ -9,6 +9,7 @@ import (
 func main() {
 	dir := flag.String("dir", "./", "默认路径")
 
+	flag.Parse()
 	fs := http.FileServer(http.Dir(*dir))
 
 	mux := http.NewServeMux()

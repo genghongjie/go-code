@@ -6,11 +6,11 @@ build:
 push:
 	docker push yinjianxia/httpserver:${v}
 
-run_image:
-	docker run -d -p 8080:8080 httpserver yinjianxia/httpserver:${v}
+run_server:
+	docker run -d -p 8080:8080 yinjianxia/httpserver:${v} httpserver
 
 test_ns_ip:
-	ContainerID=$(docker ps|grep httpserver |  awk '{print $1}')
+	ContainerID=$( docker ps|grep httpserver | sed -n "1,1p" |awk '{print $1}')
 	PID=$(docker inspect --format "{{ .State.Pid }}" ContainerID)
 	#nsenter --target $PID  --net --pidiner_id
 	nsenter -t $PID -net ip a

@@ -15,5 +15,6 @@ func main() {
 
 	testType := reflect.TypeOf(p)
 	f := testType.Field(0)
-	fmt.Printf("%v\n", f)
+
+	fmt.Printf("%v\n", f.Tag.Get("json"))
 }

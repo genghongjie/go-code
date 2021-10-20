@@ -1,49 +1,92 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"log"
 	"net/http"
 	"net/http/pprof"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
-func main() {
+var port *string
 
+func main() {
+	_ = os.Setenv("VERSION", "v1.00")
+	port = flag.String("port", "80", "http server port")
+	apiRun()
+}
+
+func apiRun() {
+	httpServer := http.Server{
+		Addr:    ":" + *port,
+		Handler: initHandle(),
+	}
+	//启动服务
+	go func() {
+		log.Println("Server start, port is ", *port)
+		log.Fatalln(httpServer.ListenAndServe())
+	}()
+	//优雅退出
+	exitServer(httpServer)
+}
+
+//优雅退出
+func exitServer(s http.Server) {
+	// grace shutdown
+	quit := make(chan os.Signal, 1)
+	// receive system signal
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit // block
+	// service will be shut down in 5 seconds, wait for the request to be processed
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := s.Shutdown(ctx); err != nil {
+		log.Fatalf("shutdown server failed: %s", err)
+	}
+	log.Println("server shutdown successfully")
+}
+
+func initHandle() *http.ServeMux {
 	//多路复用
 	mux := http.NewServeMux()
 	//健康检查
-	mux.HandleFunc("/healthz", myHandler)
+	mux.HandleFunc("/", myHeader)
+	mux.HandleFunc("/health", myHandler)
 	//性能分析模块
 	performanceProfiling(mux)
+	return mux
+}
 
-	_ = os.Setenv("V", "v1.00")
-	//启动服务
-	log.Fatalln(http.ListenAndServe(":8080", mux))
+func myHeader(w http.ResponseWriter, r *http.Request) {
+	for key := range r.Header {
+		w.Header().Set(key, r.Header.Get(key))
+	}
+	w.Header().Set("version", os.Getenv("VERSION"))
+	w.WriteHeader(http.StatusOK)
+	//打印访问信息
+	log.Printf("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
+
 }
 
 func myHandler(w http.ResponseWriter, r *http.Request) {
-	//读取header信息
-	token := r.Header.Get("toke")
-
 	//环境变量中查询版本
-	if version, ok := os.LookupEnv("V"); ok {
+	if version, ok := os.LookupEnv("VERSION"); ok {
 		w.Header().Set("version", version)
 	}
-
-	//response中写入header
-	w.Header().Set("token", token)
-	w.Header().Set("remote_addr", r.RemoteAddr)
-	w.Header().Set("method", r.Method)
-	w.Header().Set("host", r.Host)
 	w.WriteHeader(http.StatusOK)
 	_, err := w.Write([]byte("It is ok!"))
 	if err != nil {
 		log.Println(err.Error())
 	}
 	//打印访问信息
-	log.Printf("%s  %s  %d  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
+	log.Printf("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
 }
 
+//性能分析
 func performanceProfiling(mux *http.ServeMux) {
 	mux.HandleFunc("/debug/pprof/", pprof.Index)
 	mux.HandleFunc("/debug/pprof/profile", pprof.Profile)

@@ -7,7 +7,7 @@ push:
 	docker push yinjianxia/httpserver:${v}
 
 run_server:
-	docker run -d -p 8080:8080 yinjianxia/httpserver:${v} httpserver
+	docker run -d -p 8080:80 yinjianxia/httpserver:${v} httpserver
 
 test_ns_ip:
 	ContainerID=$( docker ps|grep httpserver | sed -n "1,1p" |awk '{print $1}')

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpservertest
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 4
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-httpservertest
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-httpservertest
+    spec:
+      containers:
+        - image: yinjianxia/httpserver:1.0
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /heath
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: httpservertest
+          ports:
+            - containerPort: 80
+              name: 80tcp01
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 2
+            successThreshold: 2
+            tcpSocket:
+              port: 80
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 500m
+              memory: 128Mi
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

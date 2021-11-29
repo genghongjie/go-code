@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: httpserver
+  namespace: default
+spec:
+  rules:
+    - host: httpserver.default.192.168.32.223.nip.io
+      http:
+        paths:
+          - backend:
+              serviceName: httpservertest
+              servicePort: 80

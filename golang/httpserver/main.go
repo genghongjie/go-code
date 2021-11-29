@@ -10,6 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/genghongjie/glog"
 )
 
 var port *string
@@ -27,7 +29,7 @@ func apiRun() {
 	}
 	//启动服务
 	go func() {
-		log.Println("Server start, port is ", *port)
+		glog.Infof("Server start, port is %s", *port)
 		log.Fatalln(httpServer.ListenAndServe())
 	}()
 	//优雅退出
@@ -47,7 +49,7 @@ func exitServer(s http.Server) {
 	if err := s.Shutdown(ctx); err != nil {
 		log.Fatalf("shutdown server failed: %s", err)
 	}
-	log.Println("server shutdown successfully")
+	glog.Infof("server shutdown successfully")
 }
 
 func initHandle() *http.ServeMux {
@@ -68,7 +70,7 @@ func myHeader(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("version", os.Getenv("VERSION"))
 	w.WriteHeader(http.StatusOK)
 	//打印访问信息
-	log.Printf("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
+	glog.Infof("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
 
 }
 
@@ -83,7 +85,7 @@ func myHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 	}
 	//打印访问信息
-	log.Printf("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
+	glog.Infof("remote addr %s,  ip %s, http code %d, methpd  %s", r.RemoteAddr, r.Host, http.StatusOK, r.Method)
 }
 
 //性能分析

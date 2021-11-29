@@ -1,11 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    cattle.io/creator: norman
   name: httpservertest
   namespace: default
-
 spec:
   ports:
     - name: 80tcp1-httpservertest
@@ -13,7 +10,6 @@ spec:
       protocol: TCP
       targetPort: 80
   selector:
-    workload.user.cattle.io/workloadselector: deployment-default-httpservertest
-  sessionAffinity: None
+    app: httpservertest
   type: ClusterIP
 

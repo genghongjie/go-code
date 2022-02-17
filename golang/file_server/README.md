@@ -6,7 +6,7 @@ bin目录中有对应的可执行文件
 
 linux可执行文件 
 ```
-wget --no-check-certificate https://github.com/genghongjie/go-code/blob/main/golang/file_server/bin/linux/64/fserver
+wget --no-check-certificate https://github.com/genghongjie/go-code/blob/main/golang/file_server/bin/linux/64/fserver-1.0
 ```
 
 mac可执行文件

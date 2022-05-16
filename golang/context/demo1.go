@@ -8,7 +8,7 @@ import (
 
 func worker(ctx context.Context) {
 	for {
-		fmt.Println("worker")
+		fmt.Println("worker ing")
 		time.Sleep(1 * time.Second)
 		select {
 		case <-ctx.Done():
@@ -21,7 +21,7 @@ func worker(ctx context.Context) {
 }
 
 func main() {
-	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(3*time.Second))
+	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(4*time.Second))
 	defer cancel()
 	go worker(ctx)
 

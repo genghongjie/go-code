@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -21,4 +22,6 @@ func main() {
 
 	f(ctx, k)
 	f(ctx, favContextKey("color"))
+
+	time.Sleep(10 * time.Second)
 }

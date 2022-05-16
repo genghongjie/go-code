@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"os"
@@ -9,6 +10,12 @@ import (
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 )
+
+type student struct {
+	Id   int    `json:"id"`
+	Age  int    `json:"age"`
+	Name string `json:"name"`
+}
 
 func main() {
 
@@ -22,7 +29,7 @@ func main() {
 
 	topic := "purchases"
 	p, err := kafka.NewProducer(&conf)
-
+	fmt.Printf("1111")
 	if err != nil {
 		fmt.Printf("Failed to create producer: %s", err)
 		os.Exit(1)
@@ -57,6 +64,18 @@ func main() {
 			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
 			Key:            []byte(key),
 			Value:          []byte(data),
+		}, delivery_chan)
+
+		s := student{
+			Id:   1,
+			Age:  18,
+			Name: "Hank",
+		}
+		bb, _ := json.Marshal(s)
+		p.Produce(&kafka.Message{
+			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
+			//Key:            []byte(key),
+			Value: bb,
 		}, delivery_chan)
 	}
 	//监听结果

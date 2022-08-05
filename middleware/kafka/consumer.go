@@ -22,7 +22,7 @@ func main() {
 
 	configFile := os.Args[1]
 	conf := util.ReadConfig(configFile)
-	conf["group.id"] = "kafka-go-getting-started"
+	conf["group.id"] = "kafka-go-getting-started1"
 	conf["auto.offset.reset"] = "earliest"
 
 	c, err := kafka.NewConsumer(&conf)
@@ -32,7 +32,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	topic := "purchases"
+	//topic := "purchases"
+	topic := "dbf_status"
 	err = c.SubscribeTopics([]string{topic}, nil)
 	// Set up a channel for handling Ctrl-C, etc
 	sigchan := make(chan os.Signal, 1)

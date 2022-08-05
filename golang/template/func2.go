@@ -11,8 +11,10 @@ func main() {
 	funcMap := template.FuncMap{
 		"title": strings.Title,
 	}
+
 	const templateText = `
 Input: {{printf "%q" .}}
+InputLen: {{len .}}
 Output : {{title .}}
 `
 	tmpl, err := template.New("titleTest").Funcs(funcMap).Parse(templateText)
@@ -24,3 +26,5 @@ Output : {{title .}}
 		log.Fatalf("execution: %s", err)
 	}
 }
+
+

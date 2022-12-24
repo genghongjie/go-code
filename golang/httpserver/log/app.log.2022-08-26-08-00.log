@@ -1,0 +1,8 @@
+{"level":"info","msg":"App logClient init success;Log path is ./log/app.log | source:log.go:53","time":"2022-08-26T10:09:45+08:00"}
+{"level":"info","msg":"Server start, port is 8089| source:main.go:33","time":"2022-08-26T10:09:45+08:00"}
+{"level":"info","msg":"remote addr 127.0.0.1:64261,  ip 127.0.0.1:8089, http code 200, methpd  GET| source:main.go:63","time":"2022-08-26T10:09:51+08:00"}
+{"level":"info","msg":"remote addr 127.0.0.1:64261,  ip 127.0.0.1:8089, http code 200, methpd  GET| source:main.go:63","time":"2022-08-26T10:09:52+08:00"}
+{"level":"info","msg":"remote addr 127.0.0.1:64261,  ip 127.0.0.1:8089, http code 200, methpd  GET| source:main.go:63","time":"2022-08-26T10:10:02+08:00"}
+{"level":"info","msg":"remote addr 127.0.0.1:64261,  ip 127.0.0.1:8089, http code 200, methpd  GET| source:main.go:63","time":"2022-08-26T10:10:11+08:00"}
+{"level":"info","msg":"remote addr 127.0.0.1:64261,  ip 127.0.0.1:8089, http code 200, methpd  GET| source:main.go:63","time":"2022-08-26T10:10:51+08:00"}
+{"level":"info","msg":"server shutdown successfully| source:main.go:94","time":"2022-08-26T10:15:08+08:00"}

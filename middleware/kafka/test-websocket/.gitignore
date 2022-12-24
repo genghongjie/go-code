@@ -1,0 +1,14 @@
+*.exe
+*.log
+*.toml
+.idea/*
+.idea
+.vscode/*
+.vscode
+*.log
+/logs/*
+*.idea
+/mock_service/
+*.vscode
+vendor
+bindata.go

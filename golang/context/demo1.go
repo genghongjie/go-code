@@ -15,6 +15,7 @@ func worker(ctx context.Context) {
 			fmt.Println("worker kill")
 			break
 		default:
+			fmt.Println("working working working ")
 		}
 
 	}
@@ -26,9 +27,10 @@ func main() {
 	go worker(ctx)
 
 	select {
-	case <-time.After(1 * time.Second):
+	case <-time.After(10 * time.Second):
 		fmt.Println("overslept")
 	case <-ctx.Done():
+		fmt.Println("ctx.Err()")
 		fmt.Println(ctx.Err())
 	}
 

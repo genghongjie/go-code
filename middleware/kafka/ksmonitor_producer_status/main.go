@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/genghongjie/go-code/middleware/kafka/ksmonitor_producer/md_kafka"
+	"github.com/genghongjie/go-code/middleware/kafka/ksmonitor_producer_status/md_kafka"
 	"github.com/labstack/gommon/log"
 	"math/rand"
 	"strconv"
